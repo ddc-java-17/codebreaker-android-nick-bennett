@@ -1,14 +1,14 @@
-# Android project template
+# Codebreaker for Android
 
 ## Summary
 
-This is a project template for all phases&mdash;from proposal to final delivery&mdash;of the personal Android project in the [Deep Dive Coding](https://deepdivecoding.com/) [Java + Android bootcamp](https://deepdivecoding.com/java-android/).
+This is an implementation for Android of a Codebreaker client. (Codebreaker is similar to the pencil & paper game Bulls & Cows, and to the commercially sold game Mastermind.) This client consumes a Codebreaker Solitaire service at https://ddc-java.services/codebreaker-solitaire/. 
 
 ## Credits, copyrights, and license information
 
-Written by Nicholas Bennett and Todd Nordquist.
+Written by Nicholas Bennett
 
-&copy; 2024 CNM Ingenuity, Inc.
+&copy; 2024 Nicholas Bennett.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
