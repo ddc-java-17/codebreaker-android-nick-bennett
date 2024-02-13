@@ -40,6 +40,7 @@ public class CodebreakerViewModel extends ViewModel implements DefaultLifecycleO
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     inProgress = Transformations.map(game, (game) -> game != null && !game.isSolved());
+    startGame(); // FIXME: 2024-02-13 Should usually be driven by the UI.
   }
 
   public void startGame() {
