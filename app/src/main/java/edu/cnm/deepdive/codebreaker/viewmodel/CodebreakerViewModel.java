@@ -11,12 +11,15 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import dagger.hilt.android.lifecycle.HiltViewModel;
 import dagger.hilt.android.qualifiers.ApplicationContext;
+import edu.cnm.deepdive.codebreaker.R;
 import edu.cnm.deepdive.codebreaker.model.Game;
 import edu.cnm.deepdive.codebreaker.model.Guess;
 import edu.cnm.deepdive.codebreaker.service.CodebreakerRepository;
+import edu.cnm.deepdive.codebreaker.service.PreferencesRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.inject.Inject;
-import kotlin.jvm.functions.Function1;
 
 @HiltViewModel
 public class CodebreakerViewModel extends ViewModel implements DefaultLifecycleObserver {
@@ -24,29 +27,41 @@ public class CodebreakerViewModel extends ViewModel implements DefaultLifecycleO
   private static final String TAG = CodebreakerViewModel.class.getSimpleName();
 
   private final Context context;
-  private final CodebreakerRepository repository;
+  private final CodebreakerRepository codebreakerRepository;
+  private final PreferencesRepository preferencesRepository;
   private final MutableLiveData<Game> game;
   private final MutableLiveData<Guess> guess;
   private final LiveData<Boolean> inProgress;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
+  private final String pool;
+  private final String codeLengthKey;
+  private final int codeLengthDefault;
 
   @Inject
-  CodebreakerViewModel(@ApplicationContext Context context, CodebreakerRepository repository) {
+  CodebreakerViewModel(@ApplicationContext Context context,
+      CodebreakerRepository codebreakerRepository, PreferencesRepository preferencesRepository) {
     this.context = context;
-    this.repository = repository;
+    this.codebreakerRepository = codebreakerRepository;
+    this.preferencesRepository = preferencesRepository;
     game = new MutableLiveData<>();
     guess = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     pending = new CompositeDisposable();
     inProgress = Transformations.map(game, (game) -> game != null && !game.isSolved());
+    pool = Stream.of(context.getResources().getStringArray(R.array.color_names))
+        .map((name) -> name.substring(0, 1))
+        .collect(Collectors.joining());
+    codeLengthKey = context.getString(R.string.code_length_key);
+    codeLengthDefault = context.getResources().getInteger(R.integer.code_length_default);
     startGame(); // FIXME: 2024-02-13 Should usually be driven by the UI.
   }
 
   public void startGame() {
     throwable.setValue(null);
-    Game game = new Game("ABCDEF", 4);// FIXME: 2024-02-07 Use preferences (settings) for code pool and length.
-    repository
+    int length = preferencesRepository.get(codeLengthKey, codeLengthDefault);
+    Game game = new Game(pool, length);
+    codebreakerRepository
         .startGame(game)
         .subscribe(
             this.game::postValue,
@@ -57,7 +72,7 @@ public class CodebreakerViewModel extends ViewModel implements DefaultLifecycleO
 
   public void resumeGame(String id) {
     throwable.setValue(null);
-    repository
+    codebreakerRepository
         .getGame(id)
         .subscribe(
             game::postValue,
@@ -68,7 +83,7 @@ public class CodebreakerViewModel extends ViewModel implements DefaultLifecycleO
 
   public void submitGuess(String text) {
     throwable.setValue(null);
-    repository
+    codebreakerRepository
         .submitGuess(text)
         .subscribe(
             guess::postValue,
