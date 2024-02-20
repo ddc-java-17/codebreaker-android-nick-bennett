@@ -4,25 +4,23 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:orientation="horizontal">
+  android:orientation="horizontal"
+  android:layout_gravity="start|center_vertical">
 
-<!--  TODO Replace TextView below with LinearLayout for holding ImageView.-->
-
-  <TextView
+  <LinearLayout
     android:id="@+id/guess"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:layout_weight="6"
-    android:padding="@dimen/half_dynamic_spacing"
-    style="@style/AppTheme.GuessText"
-    tools:text="ABBC"/>
+    android:padding="@dimen/half_static_spacing"/>
 
   <TextView
     android:id="@+id/correct"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="3"
-    android:padding="@dimen/half_dynamic_spacing"
+    android:padding="@dimen/half_static_spacing"
     style="@style/AppTheme.GuessText.Centered"
     tools:text="2"/>
 
@@ -31,7 +29,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="3"
-    android:padding="@dimen/half_dynamic_spacing"
+    android:padding="@dimen/half_static_spacing"
     style="@style/AppTheme.GuessText.Centered"
     tools:text="2"/>
 
