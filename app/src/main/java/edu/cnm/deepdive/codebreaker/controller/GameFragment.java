@@ -2,17 +2,17 @@ package edu.cnm.deepdive.codebreaker.controller;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import androidx.lifecycle.Lifecycle.State;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,7 +27,6 @@ import edu.cnm.deepdive.codebreaker.viewmodel.CodebreakerViewModel;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @AndroidEntryPoint
 public class GameFragment extends Fragment implements MenuProvider {
@@ -69,6 +68,7 @@ public class GameFragment extends Fragment implements MenuProvider {
   public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
     boolean handled = true;
     if (menuItem.getItemId() == R.id.new_game) {
+      adapter = null;
       viewModel.startGame();
     } else {
       handled = false;
@@ -80,7 +80,6 @@ public class GameFragment extends Fragment implements MenuProvider {
     connectToViewModel();
     LifecycleOwner owner = getViewLifecycleOwner();
     observeGame(owner);
-    observeGuess(owner);
     observeInProgress(owner);
   }
 
@@ -93,34 +92,32 @@ public class GameFragment extends Fragment implements MenuProvider {
     viewModel
         .getGame()
         .observe(owner, (game) -> {
-          adapter = new GuessesAdapter(requireContext(), game.getGuesses());
-          binding.guesses.setAdapter(adapter);
-          createSpinners(game);
+          List<Guess> guesses = game.getGuesses();
+          if (adapter == null) {
+            adapter = new GuessesAdapter(requireContext(), guesses);
+            binding.guesses.setAdapter(adapter);
+            createSpinners(game);
+          }
+          adapter.notifyDataSetChanged();
+          binding.guesses.post(() -> binding.guesses.smoothScrollToPosition(guesses.size() - 1));
         });
-  }
-
-  private void observeGuess(LifecycleOwner owner) {
-    viewModel
-        .getGuess()
-        .observe(owner,
-            (guess) -> {
-              if (adapter != null) {
-                adapter.notifyDataSetChanged();
-                binding.guesses.setSelection(adapter.getCount() - 1);
-              }
-            }); // TODO: 2024-02-13 Scroll to make last guess visible.
   }
 
   private void observeInProgress(LifecycleOwner owner) {
     viewModel
         .getInProgress()
-        .observe(owner, (inProgress) -> { /* TODO Enable/display controls on change of game state. */ });
+        .observe(owner, (inProgress) -> {
+          int visibility = inProgress ? View.VISIBLE : View.INVISIBLE;
+          binding.colorSelectors.setVisibility(visibility);
+          binding.submit.setVisibility(visibility);
+        });
   }
 
   private void createSpinners(Game game) {
     int codeLength = game.getLength();
     List<Guess> guesses = game.getGuesses();
     String lastGuess = (guesses.isEmpty()) ? null : guesses.get(guesses.size() - 1).getContent();
+    // TODO: 2024-02-20 Use lastGuess to reset spinners to colors of lastGuess (e.g., after rotation).
     Context context = requireContext();
     binding.colorSelectors.removeAllViews();
     for (int i = 0; i < codeLength; i++) {
@@ -135,7 +132,7 @@ public class GameFragment extends Fragment implements MenuProvider {
     String guess = IntStream.range(0, binding.colorSelectors.getChildCount())
         .mapToObj((pos) -> (Spinner) binding.colorSelectors.getChildAt(pos))
         .map((spinner) -> (String) spinner.getSelectedItem())
-        .map((colorName) -> colorName.substring(0,1))
+        .map((colorName) -> colorName.substring(0, 1))
         .collect(Collectors.joining());
     viewModel.submitGuess(guess);
   }
