@@ -29,7 +29,9 @@ public class GameResultRepository {
   }
 
   public Completable clear() {
-    return gameResultDao.truncateResults();
+    return gameResultDao
+        .truncateResults()
+        .subscribeOn(Schedulers.io());
   }
 
 }

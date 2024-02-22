@@ -1,8 +1,12 @@
 package edu.cnm.deepdive.codebreaker.controller;
 
 import android.os.Bundle;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +19,7 @@ import edu.cnm.deepdive.codebreaker.databinding.FragmentScoresBinding;
 import edu.cnm.deepdive.codebreaker.viewmodel.GameResultViewModel;
 
 @AndroidEntryPoint
-public class ScoresFragment extends Fragment {
+public class ScoresFragment extends Fragment implements OnSeekBarChangeListener {
 
   private FragmentScoresBinding binding;
   private GameResultViewModel viewModel;
@@ -24,7 +28,8 @@ public class ScoresFragment extends Fragment {
   public View onCreateView(
       @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     binding = FragmentScoresBinding.inflate(inflater, container, false);
-    // Initialize UI widgets as appropriate - e.g., attaching listeners.
+    binding.codeLength.setOnSeekBarChangeListener(this);
+    binding.clearScores.setOnClickListener((v) -> viewModel.clearResults());
     return binding.getRoot();
   }
 
@@ -39,12 +44,38 @@ public class ScoresFragment extends Fragment {
           GameResultsAdapter adapter = new GameResultsAdapter(requireContext(), gameResults);
           binding.gameResults.setAdapter(adapter);
         });
+    setupActionBar();
   }
 
   @Override
   public void onDestroyView() {
     binding = null;
     super.onDestroyView();
+  }
+
+  @Override
+  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    if (fromUser) {
+      viewModel.setCodeLength(progress);
+    }
+    binding.codeLengthValue.setText(String.valueOf(progress));
+  }
+
+  @Override
+  public void onStartTrackingTouch(SeekBar seekBar) {
+    // Do nothing; no need to handle this.
+  }
+
+  @Override
+  public void onStopTrackingTouch(SeekBar seekBar) {
+    // Do nothing; no need to handle this.
+  }
+
+  private void setupActionBar() {
+    ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+    //noinspection DataFlowIssue
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setDisplayShowHomeEnabled(true);
   }
 
 }
