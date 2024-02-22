@@ -7,18 +7,18 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
+import dagger.hilt.android.AndroidEntryPoint;
 import edu.cnm.deepdive.codebreaker.R;
+import edu.cnm.deepdive.codebreaker.adapter.GameResultsAdapter;
 import edu.cnm.deepdive.codebreaker.databinding.FragmentScoresBinding;
+import edu.cnm.deepdive.codebreaker.viewmodel.GameResultViewModel;
 
+@AndroidEntryPoint
 public class ScoresFragment extends Fragment {
 
   private FragmentScoresBinding binding;
-
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    // Receive & store arguments passed in to this fragment.
-  }
+  private GameResultViewModel viewModel;
 
   @Override
   public View onCreateView(
@@ -31,7 +31,14 @@ public class ScoresFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    // Connect to viewmodel(s) and observe LiveData.
+    viewModel = new ViewModelProvider(this).get(GameResultViewModel.class);
+    getLifecycle().addObserver(viewModel);
+    viewModel
+        .getGameResults()
+        .observe(getViewLifecycleOwner(), (gameResults) -> {
+          GameResultsAdapter adapter = new GameResultsAdapter(requireContext(), gameResults);
+          binding.gameResults.setAdapter(adapter);
+        });
   }
 
   @Override
