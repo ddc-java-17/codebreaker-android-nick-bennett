@@ -15,11 +15,6 @@
     tools:ignore="AllowBackup,DataExtractionRules">
     <activity
       android:exported="false"
-      android:name=".controller.SettingsActivity"
-      android:label="Settings"
-      android:parentActivityName=".controller.MainActivity"/>
-    <activity
-      android:exported="false"
       android:name=".controller.MainActivity"/>
     <activity
       android:exported="true"
