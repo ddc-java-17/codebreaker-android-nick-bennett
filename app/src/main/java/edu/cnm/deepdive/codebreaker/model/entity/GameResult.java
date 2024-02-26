@@ -3,6 +3,8 @@ package edu.cnm.deepdive.codebreaker.model.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import java.time.Duration;
@@ -10,7 +12,11 @@ import java.time.Instant;
 
 @Entity(
     tableName = "game_result",
-    indices = @Index(value = {"guess_count", "duration"})
+    indices = @Index(value = {"guess_count", "duration"}),
+    foreignKeys = {
+        @ForeignKey(entity = User.class, parentColumns = "user_id", childColumns = "user_id",
+            onDelete = ForeignKey.CASCADE)
+    }
 )
 public class GameResult {
 
@@ -31,6 +37,9 @@ public class GameResult {
   @NonNull
   @ColumnInfo(index = true)
   private Duration duration = Duration.ZERO;
+
+  @ColumnInfo(name = "user_id", index = true)
+  private long userId;
 
   public long getId() {
     return id;
@@ -73,4 +82,13 @@ public class GameResult {
   public void setDuration(@NonNull Duration duration) {
     this.duration = duration;
   }
+
+  public long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(long userId) {
+    this.userId = userId;
+  }
+
 }
