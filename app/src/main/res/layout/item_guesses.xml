@@ -5,7 +5,8 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:orientation="horizontal"
-  android:layout_gravity="start|center_vertical">
+  android:layout_gravity="start|center_vertical"
+  android:paddingHorizontal="@dimen/half_dynamic_spacing">
 
   <LinearLayout
     android:id="@+id/guess"

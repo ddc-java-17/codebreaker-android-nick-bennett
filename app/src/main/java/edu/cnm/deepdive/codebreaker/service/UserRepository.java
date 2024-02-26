@@ -13,13 +13,25 @@ import javax.inject.Singleton;
 public class UserRepository {
 
   private final UserDao userDao;
+  private final GoogleSignInService signInService;
 
   @Inject
-  UserRepository(UserDao userDao) {
+  UserRepository(UserDao userDao, GoogleSignInService signInService) {
     this.userDao = userDao;
+    this.signInService = signInService;
   }
 
-  public Single<User> getOrAdd(GoogleSignInAccount account) {
+  public Single<User> getCurrentUser() {
+    return signInService
+        .refresh()
+        .flatMap(this::getOrAdd);
+  }
+
+  public LiveData<User> get(long userId) {
+    return userDao.select(userId);
+  }
+
+  private Single<User> getOrAdd(GoogleSignInAccount account) {
     return userDao
         .select(account.getId())
         .switchIfEmpty(
@@ -39,10 +51,6 @@ public class UserRepository {
                 )
         )
         .subscribeOn(Schedulers.io());
-  }
-
-  public LiveData<User> get(long userId) {
-    return userDao.select(userId);
   }
 
 }
