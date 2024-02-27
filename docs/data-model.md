@@ -1,6 +1,6 @@
 ---
 title: Data Model
-description: "UML class diagram, entity-relationship diagram (ERD), and DDL."
+description: "UML class diagram, entity-relationship diagram (ERD), DDL, and entity classes."
 menu: Data Model
 order: 20
 uml:
@@ -19,3 +19,9 @@ erd:
 {% include erd.md %}
 
 {% include ddl.md %}
+
+## Entity classes
+
+- [`edu.cnm.deepdive.codebreaker.model.entity.GameResult`](https://github.com/ddc-java-17/codebreaker-android-nick-bennett/blob/main/app/src/main/java/edu/cnm/deepdive/codebreaker/model/entity/GameResult.java)
+- [`edu.cnm.deepdive.codebreaker.model.entity.User`](https://github.com/ddc-java-17/codebreaker-android-nick-bennett/blob/main/app/src/main/java/edu/cnm/deepdive/codebreaker/model/entity/User.java)
+
