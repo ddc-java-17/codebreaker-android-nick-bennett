@@ -1,7 +1,9 @@
-edu.cnm.deepdive.appstarter
-edu.cnm.deepdive.appstarter.controller
-edu.cnm.deepdive.appstarter.hilt
-edu.cnm.deepdive.appstarter.model.dao
-edu.cnm.deepdive.appstarter.model.entity
-edu.cnm.deepdive.appstarter.service
-edu.cnm.deepdive.appstarter.viewmodel
+edu.cnm.deepdive.codebreaker
+edu.cnm.deepdive.codebreaker.adapter
+edu.cnm.deepdive.codebreaker.controller
+edu.cnm.deepdive.codebreaker.hilt
+edu.cnm.deepdive.codebreaker.model
+edu.cnm.deepdive.codebreaker.model.dao
+edu.cnm.deepdive.codebreaker.model.entity
+edu.cnm.deepdive.codebreaker.service
+edu.cnm.deepdive.codebreaker.viewmodel
