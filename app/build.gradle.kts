@@ -163,8 +163,8 @@ dependencies {
 }
 
 roomDdl {
-    source.set(project.file("$projectDir/schemas/${android.namespace}.service.CodebreakerDatabase/1.json"))
-    destination.set(project.file("$projectDir/../docs/sql/ddl.sql"))
+    source = project.file("$projectDir/schemas/${android.namespace}.service.CodebreakerDatabase/1.json")
+    destination = project.file("$projectDir/../docs/sql/ddl.sql")
 }
 
 tasks.register("generateApiDoc") {
