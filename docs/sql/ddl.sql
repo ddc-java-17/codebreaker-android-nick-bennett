@@ -1,4 +1,4 @@
--- Generated 2024-02-27 09:36:04-0700 for database version 1
+-- Generated 2024-02-28 12:01:49-0700 for database version 1
 
 CREATE TABLE IF NOT EXISTS `user`
 (
@@ -11,25 +11,49 @@ CREATE UNIQUE INDEX IF NOT EXISTS `index_user_oauth_key` ON `user` (`oauth_key`)
 
 CREATE UNIQUE INDEX IF NOT EXISTS `index_user_display_name` ON `user` (`display_name`);
 
-CREATE TABLE IF NOT EXISTS `game_result`
+CREATE TABLE IF NOT EXISTS `game`
 (
-    `game_result_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    `timestamp`      INTEGER                           NOT NULL,
-    `code_length`    INTEGER                           NOT NULL,
-    `guess_count`    INTEGER                           NOT NULL,
-    `duration`       INTEGER                           NOT NULL,
-    `user_id`        INTEGER                           NOT NULL,
+    `game_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `key`     TEXT,
+    `pool`    TEXT,
+    `length`  INTEGER                           NOT NULL,
+    `start`   INTEGER,
+    `user_id` INTEGER                           NOT NULL,
     FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS `index_game_result_guess_count_duration` ON `game_result` (`guess_count`, `duration`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_game_key` ON `game` (`key`);
 
-CREATE INDEX IF NOT EXISTS `index_game_result_timestamp` ON `game_result` (`timestamp`);
+CREATE INDEX IF NOT EXISTS `index_game_length` ON `game` (`length`);
 
-CREATE INDEX IF NOT EXISTS `index_game_result_code_length` ON `game_result` (`code_length`);
+CREATE INDEX IF NOT EXISTS `index_game_user_id` ON `game` (`user_id`);
 
-CREATE INDEX IF NOT EXISTS `index_game_result_guess_count` ON `game_result` (`guess_count`);
+CREATE TABLE IF NOT EXISTS `guess`
+(
+    `guess_id`  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `key`       TEXT,
+    `content`   TEXT,
+    `correct`   INTEGER                           NOT NULL,
+    `close`     INTEGER                           NOT NULL,
+    `timestamp` INTEGER,
+    `game_id`   INTEGER                           NOT NULL,
+    FOREIGN KEY (`game_id`) REFERENCES `game` (`game_id`) ON UPDATE NO ACTION ON DELETE CASCADE
+);
 
-CREATE INDEX IF NOT EXISTS `index_game_result_duration` ON `game_result` (`duration`);
+CREATE UNIQUE INDEX IF NOT EXISTS `index_guess_key` ON `guess` (`key`);
 
-CREATE INDEX IF NOT EXISTS `index_game_result_user_id` ON `game_result` (`user_id`);
+CREATE INDEX IF NOT EXISTS `index_guess_game_id_timestamp` ON `guess` (`game_id`, `timestamp`);
+
+CREATE INDEX IF NOT EXISTS `index_guess_game_id` ON `guess` (`game_id`);
+
+CREATE VIEW `game_result` AS
+SELECT gm.game_id                            AS game_result_id,
+       gm.user_id,
+       gm.length                             AS code_length,
+       COUNT(*)                              as guess_count,
+       MAX(gs.timestamp) - MIN(gs.timestamp) AS duration,
+       MAX(gs.timestamp)                     AS timestamp
+FROM game AS gm
+         JOIN guess AS gs
+              ON gs.game_id = gm.game_id
+GROUP BY gm.game_id;
