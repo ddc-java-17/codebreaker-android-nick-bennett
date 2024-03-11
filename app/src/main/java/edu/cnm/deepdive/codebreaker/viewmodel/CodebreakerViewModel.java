@@ -49,7 +49,7 @@ public class CodebreakerViewModel extends ViewModel implements DefaultLifecycleO
         .collect(Collectors.joining());
     codeLengthKey = context.getString(R.string.code_length_key);
     codeLengthDefault = context.getResources().getInteger(R.integer.code_length_default);
-    startGame(); // FIXME: 2024-02-13 Should usually be driven by the UI.
+    startGame();
   }
 
   public void startGame() {

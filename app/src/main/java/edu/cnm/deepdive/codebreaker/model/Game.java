@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class Game {
 
+  @SerializedName("key")
   @Expose(serialize = false, deserialize = true)
   private final String id;
 

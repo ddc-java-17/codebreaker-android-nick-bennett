@@ -7,19 +7,18 @@ import java.util.Date;
 
 public class Guess {
 
+  @SerializedName("key")
   @Expose(serialize = false, deserialize = true)
   private final String id;
 
-  @SerializedName("text")
+  @SerializedName("guessText")
   @Expose
   private final String content;
 
-  @SerializedName("exactMatches")
   @Expose(serialize = false, deserialize = true)
   private final int correct;
 
-  @SerializedName("nearMatches")
-  @Expose(serialize = false,deserialize = true)
+  @Expose(serialize = false, deserialize = true)
   private final int close;
 
   @SerializedName("created")

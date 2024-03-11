@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.codebreaker.service;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import edu.cnm.deepdive.codebreaker.model.Game;
 import edu.cnm.deepdive.codebreaker.model.Guess;
 import edu.cnm.deepdive.codebreaker.model.entity.GameResult;
@@ -21,48 +20,54 @@ public class CodebreakerRepository {
   private final CodebreakerServiceProxy proxy;
   private final GameResultRepository resultRepository;
   private final UserRepository userRepository;
+  private final GoogleSignInService signInService;
   private final Scheduler scheduler;
 
   private Game game;
 
   @Inject
   CodebreakerRepository(CodebreakerServiceProxy proxy,
-      GameResultRepository resultRepository, UserRepository userRepository) {
+      GameResultRepository resultRepository, UserRepository userRepository,
+      GoogleSignInService signInService) {
     this.proxy = proxy;
     this.resultRepository = resultRepository;
     this.userRepository = userRepository;
+    this.signInService = signInService;
     scheduler = Schedulers.single();
   }
 
   public Single<Game> startGame(Game game) {
-    return proxy
-        .startGame(game)
-        .doOnSuccess(this::setGame)
-        .subscribeOn(scheduler);
+    return signInService
+        .refreshBearerToken()
+        .observeOn(scheduler)
+        .flatMap((token) -> proxy.startGame(game, token))
+        .doOnSuccess(this::setGame);
   }
 
   @SuppressLint("CheckResult")
   public Single<Guess> submitGuess(String text) {
-    return Single.fromSupplier(() -> game.validate(text))
-        .flatMap((guess) -> proxy.submitGuess(game.getId(), guess))
+    return signInService
+        .refreshBearerToken()
+        .observeOn(scheduler)
+        .flatMap((token) -> proxy.submitGuess(game.getId(), game.validate(text), token))
         .flatMap((guess) -> {
           game.getGuesses().add(guess);
           return game.isSolved()
               ? userRepository
-                  .getCurrentUser()
-                  .map((user) -> toResult(game, user))
-                  .flatMap(resultRepository::add)
-                  .map((result) -> guess)
+                .getCurrentUser()
+                .map((user) -> toResult(game, user))
+                .flatMap(resultRepository::add)
+                .map((result) -> guess)
               : Single.just(guess);
-        })
-        .subscribeOn(scheduler);
+        });
   }
 
   public Single<Game> getGame(String id) {
-    return proxy
-        .getGame(id)
-        .doOnSuccess(this::setGame)
-        .subscribeOn(scheduler);
+    return signInService
+        .refreshBearerToken()
+        .observeOn(scheduler)
+        .flatMap((token) -> proxy.getGame(id, token))
+        .doOnSuccess(this::setGame);
   }
 
   public Game getGame() {
