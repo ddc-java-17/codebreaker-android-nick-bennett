@@ -12,7 +12,7 @@
     android:icon="@drawable/ranked_list"/>
 
   <item
-    android:id="@+id/ranks_fragment"
+    android:id="@+id/rankings_fragment"
     android:title="@string/ranks_fragment_label"
     android:icon="@drawable/ranked_list"/>
 

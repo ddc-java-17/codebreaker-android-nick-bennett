@@ -13,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import dagger.hilt.android.AndroidEntryPoint;
+import edu.cnm.deepdive.codebreaker.MainNavigationMapDirections;
 import edu.cnm.deepdive.codebreaker.R;
 import edu.cnm.deepdive.codebreaker.databinding.ActivityMainBinding;
 import edu.cnm.deepdive.codebreaker.viewmodel.LoginViewModel;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
   private ActivityMainBinding binding;
   private LoginViewModel loginViewModel;
+  private NavController navController;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         .getThrowable()
         .observe(this, this::handleThrowable);
     setContentView(binding.getRoot());
-    setupActionBar();
+    setupNavigation();
   }
 
   @Override
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     boolean handled = true;
     if (item.getItemId() == R.id.sign_out) {
       loginViewModel.signOut();
+    } else if (item.getItemId() == R.id.settings) {
+      navController.navigate(MainNavigationMapDirections.navigateToSettings());
     } else {
       handled = super.onOptionsItemSelected(item);
     }
@@ -75,14 +79,16 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
-  private void setupActionBar() {
-    AppBarConfiguration config = new AppBarConfiguration.Builder(R.id.game_fragment)
+  private void setupNavigation() {
+    AppBarConfiguration config = new AppBarConfiguration.Builder(
+        R.id.game_fragment, R.id.scores_fragment, R.id.rankings_fragment)
         .build();
     //noinspection DataFlowIssue
-    NavController controller = ((NavHostFragment) getSupportFragmentManager()
+    navController = ((NavHostFragment) getSupportFragmentManager()
         .findFragmentById(R.id.nav_host_fragment))
         .getNavController();
-    NavigationUI.setupActionBarWithNavController(this, controller, config);
+    NavigationUI.setupActionBarWithNavController(this, navController, config);
+    NavigationUI.setupWithNavController(binding.navigator, navController);
   }
 
 }

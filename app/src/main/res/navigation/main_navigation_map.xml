@@ -6,16 +6,20 @@
   app:startDestination="@id/game_fragment">
 
   <action
-    android:id="@+id/navigate_to_game"/>
+    android:id="@+id/navigate_to_game"
+    app:destination="@id/game_fragment"/>
 
   <action
-    android:id="@+id/navigate_to_scores"/>
+    android:id="@+id/navigate_to_scores"
+    app:destination="@id/scores_fragment"/>
 
   <action
-    android:id="@+id/navigate_to_ranks"/>
+    android:id="@+id/navigate_to_ranks"
+    app:destination="@id/rankings_fragment"/>
 
   <action
-    android:id="@+id/navigate_to_settings"/>
+    android:id="@+id/navigate_to_settings"
+    app:destination="@id/settings_fragment"/>
 
   <fragment
     android:id="@+id/game_fragment"
@@ -30,7 +34,7 @@
     tools:layout="@layout/fragment_scores"/>
 
   <fragment
-    android:id="@+id/ranks_fragment"
+    android:id="@+id/rankings_fragment"
     android:name="edu.cnm.deepdive.codebreaker.controller.RanksFragment"
     android:label="@string/ranks_fragment_label"
     tools:layout="@layout/fragment_ranks"/>
