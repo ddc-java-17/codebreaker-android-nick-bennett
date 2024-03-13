@@ -15,7 +15,7 @@
 
   <action
     android:id="@+id/navigate_to_ranks"
-    app:destination="@id/rankings_fragment"/>
+    app:destination="@id/ranks_fragment"/>
 
   <action
     android:id="@+id/navigate_to_settings"
@@ -34,7 +34,7 @@
     tools:layout="@layout/fragment_scores"/>
 
   <fragment
-    android:id="@+id/rankings_fragment"
+    android:id="@+id/ranks_fragment"
     android:name="edu.cnm.deepdive.codebreaker.controller.RanksFragment"
     android:label="@string/ranks_fragment_label"
     tools:layout="@layout/fragment_ranks"/>
