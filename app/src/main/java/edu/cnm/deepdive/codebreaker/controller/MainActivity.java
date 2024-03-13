@@ -52,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onSupportNavigateUp() {
-    return NavigationUI.navigateUp(navController, binding.getRoot())
-        || super.onSupportNavigateUp();
+    return NavigationUI.navigateUp(navController, drawer) || super.onSupportNavigateUp();
   }
 
   private void handleAccount(GoogleSignInAccount account) {
