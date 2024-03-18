@@ -24,86 +24,87 @@
 <span class="source-line-no">011</span><span id="line-11"></span>
 <span class="source-line-no">012</span><span id="line-12">public class Game {</span>
 <span class="source-line-no">013</span><span id="line-13"></span>
-<span class="source-line-no">014</span><span id="line-14">  @Expose(serialize = false, deserialize = true)</span>
-<span class="source-line-no">015</span><span id="line-15">  private final String id;</span>
-<span class="source-line-no">016</span><span id="line-16"></span>
-<span class="source-line-no">017</span><span id="line-17">  @Expose</span>
-<span class="source-line-no">018</span><span id="line-18">  private final String pool;</span>
-<span class="source-line-no">019</span><span id="line-19"></span>
-<span class="source-line-no">020</span><span id="line-20">  @Expose</span>
-<span class="source-line-no">021</span><span id="line-21">  private final int length;</span>
-<span class="source-line-no">022</span><span id="line-22"></span>
-<span class="source-line-no">023</span><span id="line-23">  @Expose(serialize = false, deserialize = true)</span>
-<span class="source-line-no">024</span><span id="line-24">  private final List&lt;Guess&gt; guesses;</span>
-<span class="source-line-no">025</span><span id="line-25"></span>
-<span class="source-line-no">026</span><span id="line-26">  @Expose(serialize = false, deserialize = true)</span>
-<span class="source-line-no">027</span><span id="line-27">  @SerializedName("created")</span>
-<span class="source-line-no">028</span><span id="line-28">  private final Date start;</span>
-<span class="source-line-no">029</span><span id="line-29"></span>
-<span class="source-line-no">030</span><span id="line-30">  public Game(String pool, int length) throws BadCodeLengthException, BadPoolException {</span>
-<span class="source-line-no">031</span><span id="line-31">    if (length &lt;= 0) {</span>
-<span class="source-line-no">032</span><span id="line-32">      throw new BadCodeLengthException();</span>
-<span class="source-line-no">033</span><span id="line-33">    }</span>
-<span class="source-line-no">034</span><span id="line-34">    if (pool.isEmpty()) {</span>
-<span class="source-line-no">035</span><span id="line-35">      throw new BadPoolException();</span>
-<span class="source-line-no">036</span><span id="line-36">    }</span>
-<span class="source-line-no">037</span><span id="line-37">    this.pool = pool;</span>
-<span class="source-line-no">038</span><span id="line-38">    this.length = length;</span>
-<span class="source-line-no">039</span><span id="line-39">    id = null;</span>
-<span class="source-line-no">040</span><span id="line-40">    guesses = new LinkedList&lt;&gt;();</span>
-<span class="source-line-no">041</span><span id="line-41">    start = null;</span>
-<span class="source-line-no">042</span><span id="line-42">  }</span>
-<span class="source-line-no">043</span><span id="line-43"></span>
-<span class="source-line-no">044</span><span id="line-44">  public Guess validate(String content) throws BadGuessLengthException, CharacterNotInPoolException {</span>
-<span class="source-line-no">045</span><span id="line-45">    if (codePointLength(content) != length) {</span>
-<span class="source-line-no">046</span><span id="line-46">      throw new BadGuessLengthException();</span>
-<span class="source-line-no">047</span><span id="line-47">    }</span>
-<span class="source-line-no">048</span><span id="line-48">    Set&lt;Integer&gt; poolCodePoints = getCodePointSet(pool);</span>
-<span class="source-line-no">049</span><span id="line-49">    Set&lt;Integer&gt; contentCodePoints = getCodePointSet(content);</span>
-<span class="source-line-no">050</span><span id="line-50">    if (!poolCodePoints.containsAll(contentCodePoints)) {</span>
-<span class="source-line-no">051</span><span id="line-51">      throw new CharacterNotInPoolException();</span>
-<span class="source-line-no">052</span><span id="line-52">    }</span>
-<span class="source-line-no">053</span><span id="line-53">    return new Guess(content);</span>
-<span class="source-line-no">054</span><span id="line-54">  }</span>
-<span class="source-line-no">055</span><span id="line-55"></span>
-<span class="source-line-no">056</span><span id="line-56">  private Set&lt;Integer&gt; getCodePointSet(String src) {</span>
-<span class="source-line-no">057</span><span id="line-57">    return src</span>
-<span class="source-line-no">058</span><span id="line-58">        .codePoints()</span>
-<span class="source-line-no">059</span><span id="line-59">        .boxed()</span>
-<span class="source-line-no">060</span><span id="line-60">        .collect(Collectors.toSet());</span>
-<span class="source-line-no">061</span><span id="line-61">  }</span>
-<span class="source-line-no">062</span><span id="line-62"></span>
-<span class="source-line-no">063</span><span id="line-63">  public String getId() {</span>
-<span class="source-line-no">064</span><span id="line-64">    return id;</span>
-<span class="source-line-no">065</span><span id="line-65">  }</span>
-<span class="source-line-no">066</span><span id="line-66"></span>
-<span class="source-line-no">067</span><span id="line-67">  public String getPool() {</span>
-<span class="source-line-no">068</span><span id="line-68">    return pool;</span>
-<span class="source-line-no">069</span><span id="line-69">  }</span>
-<span class="source-line-no">070</span><span id="line-70"></span>
-<span class="source-line-no">071</span><span id="line-71">  public int getLength() {</span>
-<span class="source-line-no">072</span><span id="line-72">    return length;</span>
-<span class="source-line-no">073</span><span id="line-73">  }</span>
-<span class="source-line-no">074</span><span id="line-74"></span>
-<span class="source-line-no">075</span><span id="line-75">  public List&lt;Guess&gt; getGuesses() {</span>
-<span class="source-line-no">076</span><span id="line-76">    return guesses;</span>
-<span class="source-line-no">077</span><span id="line-77">  }</span>
-<span class="source-line-no">078</span><span id="line-78"></span>
-<span class="source-line-no">079</span><span id="line-79">  public Date getStart() {</span>
-<span class="source-line-no">080</span><span id="line-80">    return start;</span>
-<span class="source-line-no">081</span><span id="line-81">  }</span>
-<span class="source-line-no">082</span><span id="line-82"></span>
-<span class="source-line-no">083</span><span id="line-83">  public boolean isSolved() {</span>
-<span class="source-line-no">084</span><span id="line-84">    List&lt;Guess&gt; guesses = getGuesses();</span>
-<span class="source-line-no">085</span><span id="line-85">    return !guesses.isEmpty() &amp;&amp; guesses.get(guesses.size() - 1).getCorrect() == length;</span>
-<span class="source-line-no">086</span><span id="line-86">  }</span>
-<span class="source-line-no">087</span><span id="line-87">  private int codePointLength(String src) {</span>
-<span class="source-line-no">088</span><span id="line-88">    return (int) src</span>
-<span class="source-line-no">089</span><span id="line-89">        .codePoints()</span>
-<span class="source-line-no">090</span><span id="line-90">        .count();</span>
-<span class="source-line-no">091</span><span id="line-91">  }</span>
-<span class="source-line-no">092</span><span id="line-92"></span>
-<span class="source-line-no">093</span><span id="line-93">}</span>
+<span class="source-line-no">014</span><span id="line-14">  @SerializedName("key")</span>
+<span class="source-line-no">015</span><span id="line-15">  @Expose(serialize = false, deserialize = true)</span>
+<span class="source-line-no">016</span><span id="line-16">  private final String id;</span>
+<span class="source-line-no">017</span><span id="line-17"></span>
+<span class="source-line-no">018</span><span id="line-18">  @Expose</span>
+<span class="source-line-no">019</span><span id="line-19">  private final String pool;</span>
+<span class="source-line-no">020</span><span id="line-20"></span>
+<span class="source-line-no">021</span><span id="line-21">  @Expose</span>
+<span class="source-line-no">022</span><span id="line-22">  private final int length;</span>
+<span class="source-line-no">023</span><span id="line-23"></span>
+<span class="source-line-no">024</span><span id="line-24">  @Expose(serialize = false, deserialize = true)</span>
+<span class="source-line-no">025</span><span id="line-25">  private final List&lt;Guess&gt; guesses;</span>
+<span class="source-line-no">026</span><span id="line-26"></span>
+<span class="source-line-no">027</span><span id="line-27">  @Expose(serialize = false, deserialize = true)</span>
+<span class="source-line-no">028</span><span id="line-28">  @SerializedName("created")</span>
+<span class="source-line-no">029</span><span id="line-29">  private final Date start;</span>
+<span class="source-line-no">030</span><span id="line-30"></span>
+<span class="source-line-no">031</span><span id="line-31">  public Game(String pool, int length) throws BadCodeLengthException, BadPoolException {</span>
+<span class="source-line-no">032</span><span id="line-32">    if (length &lt;= 0) {</span>
+<span class="source-line-no">033</span><span id="line-33">      throw new BadCodeLengthException();</span>
+<span class="source-line-no">034</span><span id="line-34">    }</span>
+<span class="source-line-no">035</span><span id="line-35">    if (pool.isEmpty()) {</span>
+<span class="source-line-no">036</span><span id="line-36">      throw new BadPoolException();</span>
+<span class="source-line-no">037</span><span id="line-37">    }</span>
+<span class="source-line-no">038</span><span id="line-38">    this.pool = pool;</span>
+<span class="source-line-no">039</span><span id="line-39">    this.length = length;</span>
+<span class="source-line-no">040</span><span id="line-40">    id = null;</span>
+<span class="source-line-no">041</span><span id="line-41">    guesses = new LinkedList&lt;&gt;();</span>
+<span class="source-line-no">042</span><span id="line-42">    start = null;</span>
+<span class="source-line-no">043</span><span id="line-43">  }</span>
+<span class="source-line-no">044</span><span id="line-44"></span>
+<span class="source-line-no">045</span><span id="line-45">  public Guess validate(String content) throws BadGuessLengthException, CharacterNotInPoolException {</span>
+<span class="source-line-no">046</span><span id="line-46">    if (codePointLength(content) != length) {</span>
+<span class="source-line-no">047</span><span id="line-47">      throw new BadGuessLengthException();</span>
+<span class="source-line-no">048</span><span id="line-48">    }</span>
+<span class="source-line-no">049</span><span id="line-49">    Set&lt;Integer&gt; poolCodePoints = getCodePointSet(pool);</span>
+<span class="source-line-no">050</span><span id="line-50">    Set&lt;Integer&gt; contentCodePoints = getCodePointSet(content);</span>
+<span class="source-line-no">051</span><span id="line-51">    if (!poolCodePoints.containsAll(contentCodePoints)) {</span>
+<span class="source-line-no">052</span><span id="line-52">      throw new CharacterNotInPoolException();</span>
+<span class="source-line-no">053</span><span id="line-53">    }</span>
+<span class="source-line-no">054</span><span id="line-54">    return new Guess(content);</span>
+<span class="source-line-no">055</span><span id="line-55">  }</span>
+<span class="source-line-no">056</span><span id="line-56"></span>
+<span class="source-line-no">057</span><span id="line-57">  private Set&lt;Integer&gt; getCodePointSet(String src) {</span>
+<span class="source-line-no">058</span><span id="line-58">    return src</span>
+<span class="source-line-no">059</span><span id="line-59">        .codePoints()</span>
+<span class="source-line-no">060</span><span id="line-60">        .boxed()</span>
+<span class="source-line-no">061</span><span id="line-61">        .collect(Collectors.toSet());</span>
+<span class="source-line-no">062</span><span id="line-62">  }</span>
+<span class="source-line-no">063</span><span id="line-63"></span>
+<span class="source-line-no">064</span><span id="line-64">  public String getId() {</span>
+<span class="source-line-no">065</span><span id="line-65">    return id;</span>
+<span class="source-line-no">066</span><span id="line-66">  }</span>
+<span class="source-line-no">067</span><span id="line-67"></span>
+<span class="source-line-no">068</span><span id="line-68">  public String getPool() {</span>
+<span class="source-line-no">069</span><span id="line-69">    return pool;</span>
+<span class="source-line-no">070</span><span id="line-70">  }</span>
+<span class="source-line-no">071</span><span id="line-71"></span>
+<span class="source-line-no">072</span><span id="line-72">  public int getLength() {</span>
+<span class="source-line-no">073</span><span id="line-73">    return length;</span>
+<span class="source-line-no">074</span><span id="line-74">  }</span>
+<span class="source-line-no">075</span><span id="line-75"></span>
+<span class="source-line-no">076</span><span id="line-76">  public List&lt;Guess&gt; getGuesses() {</span>
+<span class="source-line-no">077</span><span id="line-77">    return guesses;</span>
+<span class="source-line-no">078</span><span id="line-78">  }</span>
+<span class="source-line-no">079</span><span id="line-79"></span>
+<span class="source-line-no">080</span><span id="line-80">  public Date getStart() {</span>
+<span class="source-line-no">081</span><span id="line-81">    return start;</span>
+<span class="source-line-no">082</span><span id="line-82">  }</span>
+<span class="source-line-no">083</span><span id="line-83"></span>
+<span class="source-line-no">084</span><span id="line-84">  public boolean isSolved() {</span>
+<span class="source-line-no">085</span><span id="line-85">    List&lt;Guess&gt; guesses = getGuesses();</span>
+<span class="source-line-no">086</span><span id="line-86">    return !guesses.isEmpty() &amp;&amp; guesses.get(guesses.size() - 1).getCorrect() == length;</span>
+<span class="source-line-no">087</span><span id="line-87">  }</span>
+<span class="source-line-no">088</span><span id="line-88">  private int codePointLength(String src) {</span>
+<span class="source-line-no">089</span><span id="line-89">    return (int) src</span>
+<span class="source-line-no">090</span><span id="line-90">        .codePoints()</span>
+<span class="source-line-no">091</span><span id="line-91">        .count();</span>
+<span class="source-line-no">092</span><span id="line-92">  }</span>
+<span class="source-line-no">093</span><span id="line-93"></span>
+<span class="source-line-no">094</span><span id="line-94">}</span>
 
 
 
