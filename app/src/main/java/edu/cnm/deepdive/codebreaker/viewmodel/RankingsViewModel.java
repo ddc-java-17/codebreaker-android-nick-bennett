@@ -13,6 +13,7 @@ import edu.cnm.deepdive.codebreaker.model.Ranking;
 import edu.cnm.deepdive.codebreaker.service.RankingsRepository;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import java.util.List;
+import javax.inject.Inject;
 
 @HiltViewModel
 public class RankingsViewModel extends ViewModel implements DefaultLifecycleObserver {
@@ -24,6 +25,7 @@ public class RankingsViewModel extends ViewModel implements DefaultLifecycleObse
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
 
+  @Inject
   public RankingsViewModel(RankingsRepository repository) {
     this.repository = repository;
     rankings = new MutableLiveData<>();
