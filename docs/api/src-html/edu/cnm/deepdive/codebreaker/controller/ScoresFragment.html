@@ -24,74 +24,82 @@
 <span class="source-line-no">011</span><span id="line-11">import android.view.LayoutInflater;</span>
 <span class="source-line-no">012</span><span id="line-12">import android.view.View;</span>
 <span class="source-line-no">013</span><span id="line-13">import android.view.ViewGroup;</span>
-<span class="source-line-no">014</span><span id="line-14">import androidx.lifecycle.ViewModelProvider;</span>
-<span class="source-line-no">015</span><span id="line-15">import dagger.hilt.android.AndroidEntryPoint;</span>
-<span class="source-line-no">016</span><span id="line-16">import edu.cnm.deepdive.codebreaker.R;</span>
-<span class="source-line-no">017</span><span id="line-17">import edu.cnm.deepdive.codebreaker.adapter.GameResultsAdapter;</span>
-<span class="source-line-no">018</span><span id="line-18">import edu.cnm.deepdive.codebreaker.databinding.FragmentScoresBinding;</span>
-<span class="source-line-no">019</span><span id="line-19">import edu.cnm.deepdive.codebreaker.viewmodel.GameResultViewModel;</span>
-<span class="source-line-no">020</span><span id="line-20"></span>
-<span class="source-line-no">021</span><span id="line-21">@AndroidEntryPoint</span>
-<span class="source-line-no">022</span><span id="line-22">public class ScoresFragment extends Fragment implements OnSeekBarChangeListener {</span>
+<span class="source-line-no">014</span><span id="line-14">import androidx.lifecycle.LifecycleOwner;</span>
+<span class="source-line-no">015</span><span id="line-15">import androidx.lifecycle.ViewModelProvider;</span>
+<span class="source-line-no">016</span><span id="line-16">import dagger.hilt.android.AndroidEntryPoint;</span>
+<span class="source-line-no">017</span><span id="line-17">import edu.cnm.deepdive.codebreaker.R;</span>
+<span class="source-line-no">018</span><span id="line-18">import edu.cnm.deepdive.codebreaker.adapter.GameResultsAdapter;</span>
+<span class="source-line-no">019</span><span id="line-19">import edu.cnm.deepdive.codebreaker.databinding.FragmentScoresBinding;</span>
+<span class="source-line-no">020</span><span id="line-20">import edu.cnm.deepdive.codebreaker.viewmodel.CodebreakerViewModel;</span>
+<span class="source-line-no">021</span><span id="line-21">import edu.cnm.deepdive.codebreaker.viewmodel.GameResultViewModel;</span>
+<span class="source-line-no">022</span><span id="line-22">import edu.cnm.deepdive.codebreaker.viewmodel.PreferencesViewModel;</span>
 <span class="source-line-no">023</span><span id="line-23"></span>
-<span class="source-line-no">024</span><span id="line-24">  private FragmentScoresBinding binding;</span>
-<span class="source-line-no">025</span><span id="line-25">  private GameResultViewModel viewModel;</span>
-<span class="source-line-no">026</span><span id="line-26">  private int initialCodeLength;</span>
-<span class="source-line-no">027</span><span id="line-27"></span>
-<span class="source-line-no">028</span><span id="line-28">  @Override</span>
-<span class="source-line-no">029</span><span id="line-29">  public void onCreate(@Nullable Bundle savedInstanceState) {</span>
-<span class="source-line-no">030</span><span id="line-30">    super.onCreate(savedInstanceState);</span>
-<span class="source-line-no">031</span><span id="line-31">    initialCodeLength = ScoresFragmentArgs.fromBundle(getArguments()).getCodeLength();</span>
-<span class="source-line-no">032</span><span id="line-32">  }</span>
-<span class="source-line-no">033</span><span id="line-33"></span>
-<span class="source-line-no">034</span><span id="line-34">  @Override</span>
-<span class="source-line-no">035</span><span id="line-35">  public View onCreateView(</span>
-<span class="source-line-no">036</span><span id="line-36">      @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {</span>
-<span class="source-line-no">037</span><span id="line-37">    binding = FragmentScoresBinding.inflate(inflater, container, false);</span>
-<span class="source-line-no">038</span><span id="line-38">    binding.codeLength.setOnSeekBarChangeListener(this);</span>
-<span class="source-line-no">039</span><span id="line-39">    binding.clearScores.setOnClickListener((v) -&gt; viewModel.clearResults());</span>
-<span class="source-line-no">040</span><span id="line-40">    return binding.getRoot();</span>
-<span class="source-line-no">041</span><span id="line-41">  }</span>
-<span class="source-line-no">042</span><span id="line-42"></span>
-<span class="source-line-no">043</span><span id="line-43">  @Override</span>
-<span class="source-line-no">044</span><span id="line-44">  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {</span>
-<span class="source-line-no">045</span><span id="line-45">    super.onViewCreated(view, savedInstanceState);</span>
-<span class="source-line-no">046</span><span id="line-46">    viewModel = new ViewModelProvider(this).get(GameResultViewModel.class);</span>
-<span class="source-line-no">047</span><span id="line-47">    getLifecycle().addObserver(viewModel);</span>
-<span class="source-line-no">048</span><span id="line-48">    viewModel</span>
-<span class="source-line-no">049</span><span id="line-49">        .getGameResults()</span>
-<span class="source-line-no">050</span><span id="line-50">        .observe(getViewLifecycleOwner(), (gameResults) -&gt; {</span>
-<span class="source-line-no">051</span><span id="line-51">          GameResultsAdapter adapter = new GameResultsAdapter(requireContext(), gameResults);</span>
-<span class="source-line-no">052</span><span id="line-52">          binding.gameResults.setAdapter(adapter);</span>
-<span class="source-line-no">053</span><span id="line-53">        });</span>
-<span class="source-line-no">054</span><span id="line-54">    binding.codeLength.setProgress(binding.codeLength.getMin());</span>
-<span class="source-line-no">055</span><span id="line-55">    binding.codeLength.setProgress(binding.codeLength.getMax());</span>
-<span class="source-line-no">056</span><span id="line-56">    binding.codeLength.setProgress(initialCodeLength);</span>
-<span class="source-line-no">057</span><span id="line-57">  }</span>
-<span class="source-line-no">058</span><span id="line-58"></span>
-<span class="source-line-no">059</span><span id="line-59">  @Override</span>
-<span class="source-line-no">060</span><span id="line-60">  public void onDestroyView() {</span>
-<span class="source-line-no">061</span><span id="line-61">    binding = null;</span>
-<span class="source-line-no">062</span><span id="line-62">    super.onDestroyView();</span>
-<span class="source-line-no">063</span><span id="line-63">  }</span>
-<span class="source-line-no">064</span><span id="line-64"></span>
-<span class="source-line-no">065</span><span id="line-65">  @Override</span>
-<span class="source-line-no">066</span><span id="line-66">  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {</span>
-<span class="source-line-no">067</span><span id="line-67">    viewModel.setCodeLength(progress);</span>
-<span class="source-line-no">068</span><span id="line-68">    binding.codeLengthValue.setText(String.valueOf(progress));</span>
-<span class="source-line-no">069</span><span id="line-69">  }</span>
-<span class="source-line-no">070</span><span id="line-70"></span>
-<span class="source-line-no">071</span><span id="line-71">  @Override</span>
-<span class="source-line-no">072</span><span id="line-72">  public void onStartTrackingTouch(SeekBar seekBar) {</span>
-<span class="source-line-no">073</span><span id="line-73">    // Do nothing; no need to handle this.</span>
-<span class="source-line-no">074</span><span id="line-74">  }</span>
-<span class="source-line-no">075</span><span id="line-75"></span>
-<span class="source-line-no">076</span><span id="line-76">  @Override</span>
-<span class="source-line-no">077</span><span id="line-77">  public void onStopTrackingTouch(SeekBar seekBar) {</span>
-<span class="source-line-no">078</span><span id="line-78">    // Do nothing; no need to handle this.</span>
-<span class="source-line-no">079</span><span id="line-79">  }</span>
-<span class="source-line-no">080</span><span id="line-80"></span>
-<span class="source-line-no">081</span><span id="line-81">}</span>
+<span class="source-line-no">024</span><span id="line-24">@AndroidEntryPoint</span>
+<span class="source-line-no">025</span><span id="line-25">public class ScoresFragment extends Fragment implements OnSeekBarChangeListener {</span>
+<span class="source-line-no">026</span><span id="line-26"></span>
+<span class="source-line-no">027</span><span id="line-27">  private FragmentScoresBinding binding;</span>
+<span class="source-line-no">028</span><span id="line-28">  private GameResultViewModel viewModel;</span>
+<span class="source-line-no">029</span><span id="line-29">  private int initialCodeLength;</span>
+<span class="source-line-no">030</span><span id="line-30"></span>
+<span class="source-line-no">031</span><span id="line-31">  @Override</span>
+<span class="source-line-no">032</span><span id="line-32">  public void onCreate(@Nullable Bundle savedInstanceState) {</span>
+<span class="source-line-no">033</span><span id="line-33">    super.onCreate(savedInstanceState);</span>
+<span class="source-line-no">034</span><span id="line-34">    // TODO: 2024-03-11 Read initialCodeLength from settings.</span>
+<span class="source-line-no">035</span><span id="line-35">  }</span>
+<span class="source-line-no">036</span><span id="line-36"></span>
+<span class="source-line-no">037</span><span id="line-37">  @Override</span>
+<span class="source-line-no">038</span><span id="line-38">  public View onCreateView(</span>
+<span class="source-line-no">039</span><span id="line-39">      @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {</span>
+<span class="source-line-no">040</span><span id="line-40">    binding = FragmentScoresBinding.inflate(inflater, container, false);</span>
+<span class="source-line-no">041</span><span id="line-41">    binding.codeLength.setOnSeekBarChangeListener(this);</span>
+<span class="source-line-no">042</span><span id="line-42">    binding.clearScores.setOnClickListener((v) -&gt; viewModel.clearResults());</span>
+<span class="source-line-no">043</span><span id="line-43">    return binding.getRoot();</span>
+<span class="source-line-no">044</span><span id="line-44">  }</span>
+<span class="source-line-no">045</span><span id="line-45"></span>
+<span class="source-line-no">046</span><span id="line-46">  @Override</span>
+<span class="source-line-no">047</span><span id="line-47">  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {</span>
+<span class="source-line-no">048</span><span id="line-48">    super.onViewCreated(view, savedInstanceState);</span>
+<span class="source-line-no">049</span><span id="line-49">    ViewModelProvider provider = new ViewModelProvider(requireActivity());</span>
+<span class="source-line-no">050</span><span id="line-50">    viewModel = provider.get(GameResultViewModel.class);</span>
+<span class="source-line-no">051</span><span id="line-51">    getLifecycle().addObserver(viewModel);</span>
+<span class="source-line-no">052</span><span id="line-52">    LifecycleOwner owner = getViewLifecycleOwner();</span>
+<span class="source-line-no">053</span><span id="line-53">    viewModel</span>
+<span class="source-line-no">054</span><span id="line-54">        .getGameResults()</span>
+<span class="source-line-no">055</span><span id="line-55">        .observe(owner, (gameResults) -&gt; {</span>
+<span class="source-line-no">056</span><span id="line-56">          GameResultsAdapter adapter = new GameResultsAdapter(requireContext(), gameResults);</span>
+<span class="source-line-no">057</span><span id="line-57">          binding.gameResults.setAdapter(adapter);</span>
+<span class="source-line-no">058</span><span id="line-58">        });</span>
+<span class="source-line-no">059</span><span id="line-59">    binding.codeLength.setProgress(binding.codeLength.getMax());</span>
+<span class="source-line-no">060</span><span id="line-60">    binding.codeLength.setProgress(binding.codeLength.getMin());</span>
+<span class="source-line-no">061</span><span id="line-61">    CodebreakerViewModel codebreakerViewModel = provider.get(CodebreakerViewModel.class);</span>
+<span class="source-line-no">062</span><span id="line-62">    codebreakerViewModel</span>
+<span class="source-line-no">063</span><span id="line-63">        .getGame()</span>
+<span class="source-line-no">064</span><span id="line-64">        .observe(owner, (game) -&gt; binding.codeLength.setProgress(game.getLength()));</span>
+<span class="source-line-no">065</span><span id="line-65">  }</span>
+<span class="source-line-no">066</span><span id="line-66"></span>
+<span class="source-line-no">067</span><span id="line-67">  @Override</span>
+<span class="source-line-no">068</span><span id="line-68">  public void onDestroyView() {</span>
+<span class="source-line-no">069</span><span id="line-69">    binding = null;</span>
+<span class="source-line-no">070</span><span id="line-70">    super.onDestroyView();</span>
+<span class="source-line-no">071</span><span id="line-71">  }</span>
+<span class="source-line-no">072</span><span id="line-72"></span>
+<span class="source-line-no">073</span><span id="line-73">  @Override</span>
+<span class="source-line-no">074</span><span id="line-74">  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {</span>
+<span class="source-line-no">075</span><span id="line-75">    viewModel.setCodeLength(progress);</span>
+<span class="source-line-no">076</span><span id="line-76">    binding.codeLengthValue.setText(String.valueOf(progress));</span>
+<span class="source-line-no">077</span><span id="line-77">  }</span>
+<span class="source-line-no">078</span><span id="line-78"></span>
+<span class="source-line-no">079</span><span id="line-79">  @Override</span>
+<span class="source-line-no">080</span><span id="line-80">  public void onStartTrackingTouch(SeekBar seekBar) {</span>
+<span class="source-line-no">081</span><span id="line-81">    // Do nothing; no need to handle this.</span>
+<span class="source-line-no">082</span><span id="line-82">  }</span>
+<span class="source-line-no">083</span><span id="line-83"></span>
+<span class="source-line-no">084</span><span id="line-84">  @Override</span>
+<span class="source-line-no">085</span><span id="line-85">  public void onStopTrackingTouch(SeekBar seekBar) {</span>
+<span class="source-line-no">086</span><span id="line-86">    // Do nothing; no need to handle this.</span>
+<span class="source-line-no">087</span><span id="line-87">  }</span>
+<span class="source-line-no">088</span><span id="line-88"></span>
+<span class="source-line-no">089</span><span id="line-89">}</span>
 
 
 
