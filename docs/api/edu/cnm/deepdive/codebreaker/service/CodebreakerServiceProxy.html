@@ -86,7 +86,7 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/edu/cnm/deepdive/codebreaker/service/CodebreakerServiceProxy.html#line-20">CodebreakerServiceProxy</a></span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/edu/cnm/deepdive/codebreaker/service/CodebreakerServiceProxy.html#line-24">CodebreakerServiceProxy</a></span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -102,15 +102,24 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a><wbr>&lt;<a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getGame(java.lang.String)" class="member-name-link">getGame</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getGame(java.lang.String,java.lang.String)" class="member-name-link">getGame</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bearerToken)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a><wbr>&lt;<a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#startGame(edu.cnm.deepdive.codebreaker.model.Game)" class="member-name-link">startGame</a><wbr>(<a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&nbsp;game)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/Ranking.html" title="class in edu.cnm.deepdive.codebreaker.model">Ranking</a>&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getRankings(int,int,int,java.lang.String)" class="member-name-link">getRankings</a><wbr>(int&nbsp;poolSize,
+ int&nbsp;codeLength,
+ int&nbsp;gamesThreshold,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bearerToken)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a><wbr>&lt;<a href="../model/Guess.html" title="class in edu.cnm.deepdive.codebreaker.model">Guess</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#submitGuess(java.lang.String,edu.cnm.deepdive.codebreaker.model.Guess)" class="member-name-link">submitGuess</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameId,
- <a href="../model/Guess.html" title="class in edu.cnm.deepdive.codebreaker.model">Guess</a>&nbsp;guess)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a><wbr>&lt;<a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#startGame(edu.cnm.deepdive.codebreaker.model.Game,java.lang.String)" class="member-name-link">startGame</a><wbr>(<a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&nbsp;game,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bearerToken)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a><wbr>&lt;<a href="../model/Guess.html" title="class in edu.cnm.deepdive.codebreaker.model">Guess</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#submitGuess(java.lang.String,edu.cnm.deepdive.codebreaker.model.Guess,java.lang.String)" class="member-name-link">submitGuess</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameId,
+ <a href="../model/Guess.html" title="class in edu.cnm.deepdive.codebreaker.model">Guess</a>&nbsp;guess,
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bearerToken)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -126,29 +135,49 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="startGame(edu.cnm.deepdive.codebreaker.model.Game)">
+<section class="detail" id="startGame(edu.cnm.deepdive.codebreaker.model.Game,java.lang.String)">
 <h3>startGame</h3>
 <div class="member-signature"><span class="annotations"><a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/POST.html" title="class or interface in retrofit2.http" class="external-link">@POST</a>("games")
-</span><span class="return-type"><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a>&lt;<a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/edu/cnm/deepdive/codebreaker/service/CodebreakerServiceProxy.html#line-22">startGame</a></span><wbr><span class="parameters">(<a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Body.html" title="class or interface in retrofit2.http" class="external-link">@Body</a>
- <a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&nbsp;game)</span></div>
+</span><span class="return-type"><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a>&lt;<a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/edu/cnm/deepdive/codebreaker/service/CodebreakerServiceProxy.html#line-26">startGame</a></span><wbr><span class="parameters">(<a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Body.html" title="class or interface in retrofit2.http" class="external-link">@Body</a>
+ <a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&nbsp;game,
+ <a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Header.html" title="class or interface in retrofit2.http" class="external-link">@Header</a>("Authorization")
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bearerToken)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="getGame(java.lang.String)">
+<section class="detail" id="getGame(java.lang.String,java.lang.String)">
 <h3>getGame</h3>
 <div class="member-signature"><span class="annotations"><a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/GET.html" title="class or interface in retrofit2.http" class="external-link">@GET</a>("games/{id}")
-</span><span class="return-type"><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a>&lt;<a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/edu/cnm/deepdive/codebreaker/service/CodebreakerServiceProxy.html#line-25">getGame</a></span><wbr><span class="parameters">(<a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Path.html" title="class or interface in retrofit2.http" class="external-link">@Path</a>("id")
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id)</span></div>
+</span><span class="return-type"><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a>&lt;<a href="../model/Game.html" title="class in edu.cnm.deepdive.codebreaker.model">Game</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/edu/cnm/deepdive/codebreaker/service/CodebreakerServiceProxy.html#line-29">getGame</a></span><wbr><span class="parameters">(<a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Path.html" title="class or interface in retrofit2.http" class="external-link">@Path</a>("id")
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
+ <a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Header.html" title="class or interface in retrofit2.http" class="external-link">@Header</a>("Authorization")
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bearerToken)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="submitGuess(java.lang.String,edu.cnm.deepdive.codebreaker.model.Guess)">
+<section class="detail" id="submitGuess(java.lang.String,edu.cnm.deepdive.codebreaker.model.Guess,java.lang.String)">
 <h3>submitGuess</h3>
 <div class="member-signature"><span class="annotations"><a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/POST.html" title="class or interface in retrofit2.http" class="external-link">@POST</a>("games/{id}/guesses")
-</span><span class="return-type"><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a>&lt;<a href="../model/Guess.html" title="class in edu.cnm.deepdive.codebreaker.model">Guess</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/edu/cnm/deepdive/codebreaker/service/CodebreakerServiceProxy.html#line-28">submitGuess</a></span><wbr><span class="parameters">(<a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Path.html" title="class or interface in retrofit2.http" class="external-link">@Path</a>("id")
+</span><span class="return-type"><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a>&lt;<a href="../model/Guess.html" title="class in edu.cnm.deepdive.codebreaker.model">Guess</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/edu/cnm/deepdive/codebreaker/service/CodebreakerServiceProxy.html#line-32">submitGuess</a></span><wbr><span class="parameters">(<a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Path.html" title="class or interface in retrofit2.http" class="external-link">@Path</a>("id")
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameId,
  <a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Body.html" title="class or interface in retrofit2.http" class="external-link">@Body</a>
- <a href="../model/Guess.html" title="class in edu.cnm.deepdive.codebreaker.model">Guess</a>&nbsp;guess)</span></div>
+ <a href="../model/Guess.html" title="class in edu.cnm.deepdive.codebreaker.model">Guess</a>&nbsp;guess,
+ <a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Header.html" title="class or interface in retrofit2.http" class="external-link">@Header</a>("Authorization")
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bearerToken)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getRankings(int,int,int,java.lang.String)">
+<h3>getRankings</h3>
+<div class="member-signature"><span class="annotations"><a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/GET.html" title="class or interface in retrofit2.http" class="external-link">@GET</a>("rankings")
+</span><span class="return-type"><a href="https://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Single.html" title="class or interface in io.reactivex.rxjava3.core" class="external-link">Single</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="../model/Ranking.html" title="class in edu.cnm.deepdive.codebreaker.model">Ranking</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/edu/cnm/deepdive/codebreaker/service/CodebreakerServiceProxy.html#line-36">getRankings</a></span><wbr><span class="parameters">(<a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Query.html" title="class or interface in retrofit2.http" class="external-link">@Query</a>("pool-size")
+ int&nbsp;poolSize,
+ <a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Query.html" title="class or interface in retrofit2.http" class="external-link">@Query</a>("code-length")
+ int&nbsp;codeLength,
+ <a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Query.html" title="class or interface in retrofit2.http" class="external-link">@Query</a>("games-threshold")
+ int&nbsp;gamesThreshold,
+ <a href="https://square.github.io/retrofit/2.x/retrofit/retrofit2/http/Header.html" title="class or interface in retrofit2.http" class="external-link">@Header</a>("Authorization")
+ <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bearerToken)</span></div>
 </section>
 </li>
 </ul>
